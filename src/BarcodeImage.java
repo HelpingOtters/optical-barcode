@@ -10,25 +10,25 @@ public class BarcodeImage implements Cloneable
 {
    public static final int MAX_HEIGHT = 30;
    public static final int MAX_WIDTH = 65;
-
+   
    private boolean[][] imageData;
-
+   
    //default constructor
    public BarcodeImage()
    {
       initImageData();
    }
-
+   
    public BarcodeImage(String[] strData)
    {
       initImageData();
-
+      
       if(!checkSize(strData))
       {
          System.out.println("Fatal error, import string data is too big!");
          System.exit(0);
       }
-
+      
       // string data starts from the last string but imageData starts from first row
       // loop until the first string is taken care of 
       for(int row = MAX_HEIGHT - 1, s = strData.length - 1; s >= 0; row--, s--)
@@ -46,9 +46,9 @@ public class BarcodeImage implements Cloneable
             }
          }
       }
-
+      
    }
-
+   
    // Copy constructor
    public BarcodeImage(BarcodeImage other)
    {
@@ -61,7 +61,7 @@ public class BarcodeImage implements Cloneable
          }
       }
    }
-
+   
    private boolean checkSize(String[] data)
    {
       if(data == null)
@@ -81,7 +81,7 @@ public class BarcodeImage implements Cloneable
       }
       return false;
    }
-
+   
    private void initImageData()
    {
       imageData = new boolean[MAX_HEIGHT][MAX_WIDTH];
@@ -93,7 +93,7 @@ public class BarcodeImage implements Cloneable
          }
       }
    }
-
+   
    // Accessor
    public boolean getPixel(int row, int col)
    {
@@ -103,7 +103,7 @@ public class BarcodeImage implements Cloneable
       }
       return false;
    }
-
+   
    // Mutator
    public boolean setPixel(int row, int col, boolean value)
    {
@@ -114,12 +114,21 @@ public class BarcodeImage implements Cloneable
       }
       return false;
    }
-
-   public BarcodeImage clone()
+   
+   @Override
+   public BarcodeImage clone() throws CloneNotSupportedException
    {
-      return new BarcodeImage(this);
+      try
+      {
+          BarcodeImage image = (BarcodeImage)super.clone();
+          return image;
+      }
+      catch (CloneNotSupportedException e)
+      {   // This should not happen
+          return null;
+      }
    }
-
+   
    public void displayToConsole()
    {
       for(int col = 0; col < MAX_WIDTH +2; col++)
