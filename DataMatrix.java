@@ -167,14 +167,14 @@ public class DataMatrix implements BarcodeIO
       String binary = Integer.toBinaryString(code);
       image.setPixel(image.MAX_HEIGHT, col, true);
 
-      if(col%2==0) {
-         image.setPixel(image.MAX_HEIGHT-(binary.length()+1), col, true);
+      if(col % 2 == 0) {
+         image.setPixel(image.MAX_HEIGHT-(binary.length() + 1), col, true);
       }
-      for(int i=0; i<binary.length(); i++) {
+      for(int i = 0; i < binary.length(); i++) {
          if(binary.charAt(i) == '1') {
-            image.setPixel((image.MAX_HEIGHT-1)-(i+1), col, true);
+            image.setPixel((image.MAX_HEIGHT - 1) - (i + 1), col, true);
          } else {
-            image.setPixel((image.MAX_HEIGHT-1)-(i+1), col, false);
+            image.setPixel((image.MAX_HEIGHT - 1 ) - (i + 1), col, false);
          }
       }
       return true;
@@ -194,7 +194,7 @@ public class DataMatrix implements BarcodeIO
    public void displayImageToConsole() {
       int row, col;
       System.out.println();
-      for(row = image.MAX_HEIGHT-actualHeight; row < image.MAX_HEIGHT; row++) {
+      for(row = image.MAX_HEIGHT - actualHeight; row < image.MAX_HEIGHT; row++) {
          for(col = 0; col < actualWidth; col++) {
             if(image.getPixel(row, col) == true) {
                System.out.print("*");
