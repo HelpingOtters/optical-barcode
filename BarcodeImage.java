@@ -113,7 +113,8 @@ public class BarcodeImage implements Cloneable
       return false;
    }
    
-   public BarcodeImage clone()
+   @Override
+   public BarcodeImage clone() throws CloneNotSupportedException
    {
       return new BarcodeImage(this);
    }
