@@ -76,7 +76,6 @@ public class DataMatrix implements BarcodeIO
       } catch (CloneNotSupportedException e) {
          return false;
       }
-      
    }
 
    /**
