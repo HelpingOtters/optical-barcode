@@ -1,3 +1,5 @@
+package src;
+
 /**
  * 
  * @author Max Halbert
@@ -113,7 +115,7 @@ public class BarcodeImage implements Cloneable
       return false;
    }
 
-   public BarcodeImage clone()
+   public BarcodeImage clone() throws CloneNotSupportedException 
    {
       return new BarcodeImage(this);
    }

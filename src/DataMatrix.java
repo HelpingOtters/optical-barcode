@@ -1,3 +1,4 @@
+package src;
 
 public class DataMatrix implements BarcodeIO
 {
@@ -63,16 +64,20 @@ public class DataMatrix implements BarcodeIO
    /**
     * Method to read in the image, make a copy of it and clean it up
     * @param image
+    * @return 
     */
-   public void scan(BarcodeImage image) 
+   public boolean scan(BarcodeImage image) 
    {
       try {
          this.image = image.clone();
+         cleanImage();
+         actualWidth = computeSignalWidth(); 
+         actualHeight = computeSignalHeight(); 
+         return true;
       } catch (CloneNotSupportedException e) {
+         return false;
       }
-      cleanImage();
-      actualWidth = computeSignalWidth(); 
-      actualHeight = computeSignalHeight(); 
+      
    }
 
    /**
@@ -206,6 +211,7 @@ public class DataMatrix implements BarcodeIO
       System.out.println(this.text);
    }
 
+ 
    public void displayImageToConsole() 
    {
       /**
@@ -214,8 +220,8 @@ public class DataMatrix implements BarcodeIO
        * prints out the image to the console.  
        * In our implementation, we will do this in the form of a dot-matrix 
        * of blanks and asterisks
+       *
        */
-
       //top border displayed
       for (int x = 0; x < this.actualWidth + 2; x++)
       {
@@ -230,7 +236,7 @@ public class DataMatrix implements BarcodeIO
          System.out.print("|");
          for (int x = 0; x < this.actualWidth; x++)
          {
-            if (this.image.getPixel(x, y))
+            if (this.image.getPixel(y, x))
             {
                System.out.print(this.BLACK_CHAR);
             }
@@ -239,10 +245,17 @@ public class DataMatrix implements BarcodeIO
                System.out.print(this.WHITE_CHAR);
             }
          }
-         System.out.println("|");
+         System.out.print("|");
          System.out.println();
       }
+    //bottom border displayed
+      for (int x = 0; x < this.actualWidth + 2; x++)
+      {
+         System.out.print("-");
+      }
+      System.out.println();
    }
+
 
    /****************************************END*****OF*******PERSON2************************************/
 
@@ -401,6 +414,24 @@ public class DataMatrix implements BarcodeIO
       /*
        Can be implemented to show the full image data including the blank top and right.  It is a useful debugging tool.
        */
+      for(int row = 0; row < this.image.MAX_HEIGHT; row++)
+      {
+         System.out.print("|");
+         for(int col = 0; col < this.image.MAX_WIDTH; col++)
+         {
+            if(this.image.getPixel(row, col))
+            {
+               System.out.print(this.BLACK_CHAR);
+            }
+            else
+            {
+               System.out.print(this.WHITE_CHAR);
+            }
+         }
+         System.out.print("|");
+         System.out.println();
+          
+      }
 
    }
 
