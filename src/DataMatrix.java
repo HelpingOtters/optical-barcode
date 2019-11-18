@@ -77,15 +77,7 @@ public class DataMatrix implements BarcodeIO
       } catch (CloneNotSupportedException e) {
          return false;
       }
-<<<<<<< Updated upstream
       
-=======
-      cleanImage();
-      actualWidth = computeSignalWidth(); 
-      actualHeight = computeSignalHeight(); 
-      
-      return true;
->>>>>>> Stashed changes
    }
 
    /**

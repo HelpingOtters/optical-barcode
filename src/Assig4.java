@@ -1,8 +1,4 @@
 package src;
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
 public class Assig4 
 {
 

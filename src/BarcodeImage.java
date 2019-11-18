@@ -1,8 +1,4 @@
 package src;
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
 /**
  * 
  * @author Max Halbert
