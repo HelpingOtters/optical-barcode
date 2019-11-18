@@ -1,6 +1,7 @@
+// package src;
 public class Assig4 
 {
-   
+
    public static void main(String[] args)
    {
       String[] sImageIn =
@@ -23,25 +24,25 @@ public class Assig4
          "                                               "
 
       };      
-      
+
       String[] sImageIn_2 =
       {
-            "                                          ",
-            "                                          ",
-            "* * * * * * * * * * * * * * * * * * *     ",
-            "*                                    *    ",
-            "**** *** **   ***** ****   *********      ",
-            "* ************ ************ **********    ",
-            "** *      *    *  * * *         * *       ",
-            "***   *  *           * **    *      **    ",
-            "* ** * *  *   * * * **  *   ***   ***     ",
-            "* *           **    *****  *   **   **    ",
-            "****  *  * *  * **  ** *   ** *  * *      ",
-            "**************************************    ",
-            "                                          ",
-            "                                          ",
-            "                                          ",
-            "                                          "
+         "                                          ",
+         "                                          ",
+         "* * * * * * * * * * * * * * * * * * *     ",
+         "*                                    *    ",
+         "**** *** **   ***** ****   *********      ",
+         "* ************ ************ **********    ",
+         "** *      *    *  * * *         * *       ",
+         "***   *  *           * **    *      **    ",
+         "* ** * *  *   * * * **  *   ***   ***     ",
+         "* *           **    *****  *   **   **    ",
+         "****  *  * *  * **  ** *   ** *  * *      ",
+         "**************************************    ",
+         "                                          ",
+         "                                          ",
+         "                                          ",
+         "                                          "
 
       };
      
@@ -55,14 +56,14 @@ public class Assig4
       dm.translateImageToText();
       dm.displayTextToConsole();
       dm.displayImageToConsole();
-      
+
       // second secret message
       bc = new BarcodeImage(sImageIn_2);
       dm.scan(bc);
       dm.translateImageToText();
       dm.displayTextToConsole();
       dm.displayImageToConsole();
-      
+
       // create your own message
       dm.readText("What a great resume builder this is!");
       dm.generateImageFromText();
@@ -70,6 +71,6 @@ public class Assig4
       dm.displayImageToConsole();
        
    }
-   
-   
+
+
 }

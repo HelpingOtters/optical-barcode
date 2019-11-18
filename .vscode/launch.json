@@ -4,6 +4,13 @@
             "type": "java",
             "name": "CodeLens (Launch) - Assig4",
             "request": "launch",
+            "mainClass": "src.Assig4",
+            "projectName": "optical-barcode"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - Assig4",
+            "request": "launch",
             "mainClass": "Assig4"
         }
     ]

@@ -1,3 +1,4 @@
+// package src;
 /**
  * 
  * @author Max Halbert
@@ -116,7 +117,15 @@ public class BarcodeImage implements Cloneable
    @Override
    public BarcodeImage clone() throws CloneNotSupportedException
    {
-      return new BarcodeImage(this);
+      try
+      {
+          BarcodeImage image = (BarcodeImage)super.clone();
+          return image;
+      }
+      catch (CloneNotSupportedException e)
+      {   // This should not happen
+          return null;
+      }
    }
    
    public void displayToConsole()
