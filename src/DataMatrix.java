@@ -222,18 +222,11 @@ public class DataMatrix implements BarcodeIO
        * of blanks and asterisks
        *
        */
-      //top border displayed
-      for (int x = 0; x < this.actualWidth + 2; x++)
-      {
-         System.out.print("-");
-      }
-      System.out.println();
 
       //displays data 
       int leftCorner = this.image.MAX_HEIGHT - this.actualHeight;
       for (int y = leftCorner; y < this.image.MAX_HEIGHT; y++)
       {
-         System.out.print("|");
          for (int x = 0; x < this.actualWidth; x++)
          {
             if (this.image.getPixel(y, x))
@@ -245,15 +238,8 @@ public class DataMatrix implements BarcodeIO
                System.out.print(this.WHITE_CHAR);
             }
          }
-         System.out.print("|");
          System.out.println();
       }
-    //bottom border displayed
-      for (int x = 0; x < this.actualWidth + 2; x++)
-      {
-         System.out.print("-");
-      }
-      System.out.println();
    }
 
 
