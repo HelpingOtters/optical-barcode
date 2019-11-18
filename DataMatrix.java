@@ -97,46 +97,25 @@ public class DataMatrix implements BarcodeIO
    
    /******************************************PERSON******2**************************************/
    public boolean generateImageFromText() {
-	   clearImage();
-	   char[] textArray = text.toCharArray();
-	   
-	   for (int i = 1; i < textArray.length + 1; i++) {
-		   char[] binaryColumn = Integer.toBinaryString((int)textArray[i-1]).toCharArray();
-		   
-		   for (int j = BarcodeImage.MAX_HEIGHT-2; j > BarcodeImage.MAX_HEIGHT-binaryColumn.length-2; j--) {
-			   if (binaryColumn[binaryColumn.length-(BarcodeImage.MAX_HEIGHT-1-j)] == '1') {
-				   //set pixels to true
-				   image.setPixel(j, i, true);
-			   }
-			   
-			   else {
-				   //set pixels to false
-				   image.setPixel(j, i, false);
-			   }
-		   }
-	   }
-	   
-	   //setting the left edge
-	   for (int i = BarcodeImage.MAX_HEIGHT - 1; i >= BarcodeImage.MAX_HEIGHT - 9; i--) {
-		   image.setPixel(i, 0, true);
-	   }
-	   
-	   for (int i = 0; i <= textArray.length; i++) {
-		   image.setPixel(BarcodeImage.MAX_HEIGHT-1, i, true);
-		   
-		   if (i%2==0) {
-			   image.setPixel(BarcodeImage.MAX_HEIGHT-10, i, true);
-		   }
-	   }
-	   
-	   actualWidth = computeSignalWidth();
-	   actualHeight = computeSignalHeight();
-	   
+      if(text == null || text.equals("") || 
+            text.length() > BarcodeImage.MAX_WIDTH)
+         return false;
+         
+      int valueASCII;
+      
+      actualWidth = text.length() + 2;
+      
+      for(int i = 0; i < text.length(); i++)
+      {
+         valueASCII = (int)text.charAt(i);
+         writeCharToCol(i + 1, valueASCII);
+      }
+      
       return true;
+
    }
    
    public boolean translateImageToText() 	{
-	   cleanImage();
 	   	
 	   text = "";
       for(int i = 1 ; i < actualWidth - 1; i++) {
@@ -150,7 +129,7 @@ public class DataMatrix implements BarcodeIO
    private char readCharFromCol(int col) 
    {
       String numVal = "";
-      for(int i = BarcodeImage.MAX_HEIGHT-actualHeight+1; i<BarcodeImage.MAX_HEIGHT-1; i++) {
+      for(int i = BarcodeImage.MAX_HEIGHT - actualHeight+1; i < BarcodeImage.MAX_HEIGHT - 1; i++) {
          if(image.getPixel(i, col)) {
             numVal += "1";
          }
