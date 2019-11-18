@@ -1,4 +1,4 @@
-package src;
+// package src;
 public class Assig4 
 {
 
@@ -45,13 +45,14 @@ public class Assig4
          "                                          "
 
       };
-
+     
       BarcodeImage bc = new BarcodeImage(sImageIn);
       bc.displayToConsole();
       
-      DataMatrix dm = new DataMatrix(bc);
-
-      //First secret message
+      
+        DataMatrix dm = new DataMatrix(bc);
+     
+      // First secret message
       dm.translateImageToText();
       dm.displayTextToConsole();
       dm.displayImageToConsole();
@@ -68,6 +69,7 @@ public class Assig4
       dm.generateImageFromText();
       dm.displayTextToConsole();
       dm.displayImageToConsole();
+       
    }
 
 
