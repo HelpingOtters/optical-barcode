@@ -96,52 +96,74 @@ public class DataMatrix implements BarcodeIO
    /**************************************** END OF PERSON 1 ************************************/
    
    /******************************************PERSON******2**************************************/
-   public boolean generateImageFromText() {
+
+   /**
+    * creates a barcode image from a String value 
+    * @return boolean
+    */
+   public boolean generateImageFromText() 
+   {
       if(text == null || text.equals("") || 
             text.length() > BarcodeImage.MAX_WIDTH)
          return false;
          
-      int valueASCII;
+      int value;
       
       actualWidth = text.length() + 2;
       
       for(int i = 0; i < text.length(); i++)
       {
-         valueASCII = (int)text.charAt(i);
-         writeCharToCol(i + 1, valueASCII);
+         value = (int)text.charAt(i);
+         writeCharToCol(i + 1, value);
       }
-      
+
+      cleanImage();
       return true;
 
    }
    
-   public boolean translateImageToText() 	{
+   /**
+    * reads barcode image and and translates to String value
+    * @return boolean
+    */
+   public boolean translateImageToText() 	
+   {
 	   	
 	   text = "";
-      for(int i = 1 ; i < actualWidth - 1; i++) {
+      for(int i = 1 ; i < actualWidth - 1; i++) 
+      {
          text += (readCharFromCol(i));
       }
       
       return false;
    }
    
-   // Use for generateImageFromText() and translateImageToText()
+   /**
+    * helper method for generateImageFromText()
+    * @return binary value 
+    */ 
    private char readCharFromCol(int col) 
    {
-      String numVal = "";
-      for(int i = BarcodeImage.MAX_HEIGHT - actualHeight+1; i < BarcodeImage.MAX_HEIGHT - 1; i++) {
+      String binary = "";
+      for(int i = BarcodeImage.MAX_HEIGHT - actualHeight + 1; i < BarcodeImage.MAX_HEIGHT - 1; i++) {
          if(image.getPixel(i, col)) {
-            numVal += "1";
+            binary += "1";
          }
          else {
-        	 numVal += "0";
+        	 binary += "0";
          }
       }
-      return ((char)Integer.parseInt(numVal, 2));
+      return ((char)Integer.parseInt(binary, 2));
    }
 
-   // Use for generateImageFromText() and translateImageToText()
-   private boolean writeCharToCol(int col, int code) {
+   /**
+    * helper method for generateImageFromText()
+    * @param col
+    * @param code
+    * @return boolean
+    */
+   private boolean writeCharToCol(int col, int code) 
+   {
       String binary = Integer.toBinaryString(code);
       image.setPixel(image.MAX_HEIGHT, col, true);
 
@@ -157,12 +179,18 @@ public class DataMatrix implements BarcodeIO
       }
       return true;
    }
+
+   /**
+    * prints String text to the console
+    */
    public void displayTextToConsole() 
    {
-      // prints out the text string to the console.
       System.out.println(this.text);
    }
    
+   /**
+    * prints image to the console
+    */
    public void displayImageToConsole() {
       int row, col;
       System.out.println();
