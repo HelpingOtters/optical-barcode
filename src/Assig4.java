@@ -1,4 +1,8 @@
 package src;
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 public class Assig4 
 {
 
@@ -49,8 +53,8 @@ public class Assig4
       BarcodeImage bc = new BarcodeImage(sImageIn_2);
       bc.displayToConsole();
 
-      
-        DataMatrix dm = new DataMatrix(bc);
+
+      DataMatrix dm = new DataMatrix(bc);
 
       //First secret message
       dm.translateImageToText();
@@ -69,7 +73,7 @@ public class Assig4
       dm.generateImageFromText();
       dm.displayTextToConsole();
       dm.displayImageToConsole();
-       
+
    }
 
 
