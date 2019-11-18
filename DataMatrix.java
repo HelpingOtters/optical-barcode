@@ -103,21 +103,22 @@ public class DataMatrix implements BarcodeIO
     */
    public boolean generateImageFromText() 
    {
+      //checks for validity
       if(text == null || text.equals("") || 
             text.length() > BarcodeImage.MAX_WIDTH)
          return false;
          
-      int value;
-      
-      actualWidth = text.length() + 2;
-      
+      //loops the writeCharToCol() method to write characters  
+      int value;   
       for(int i = 0; i < text.length(); i++)
       {
          value = (int)text.charAt(i);
          writeCharToCol(i + 1, value);
       }
 
+      //realigns
       cleanImage();
+
       return true;
 
    }
@@ -128,8 +129,8 @@ public class DataMatrix implements BarcodeIO
     */
    public boolean translateImageToText() 	
    {
-	   	
-	   text = "";
+	   //loops readCharFromCol() method to read characters	
+      text = "";
       for(int i = 1 ; i < actualWidth - 1; i++) 
       {
          text += (readCharFromCol(i));
