@@ -79,6 +79,12 @@ public class Assig4
       dm.generateImageFromText();
       dm.displayTextToConsole();
       dm.displayImageToConsole();
+
+      // create your own message
+      dm.readText("Helping Otters 2019");
+      dm.generateImageFromText();
+      dm.displayTextToConsole();
+      dm.displayImageToConsole();
        
    }
 
