@@ -1,4 +1,4 @@
-// package src;
+package src;
 
 /**
  * stores a barcode image as boolean type 2D array and allows retrieve and

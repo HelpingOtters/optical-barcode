@@ -1,4 +1,4 @@
-// package src;
+package src;
 public class Assig4 
 {
 
@@ -66,7 +66,7 @@ public class Assig4
 
       // create your own message
       //dm.readText("What a great resume builder this is!");
-      dm.readText("Eres un faq you!");
+      dm.readText("What a great resume builder this is!");
       dm.generateImageFromText();
       dm.displayTextToConsole();
       dm.displayImageToConsole();
