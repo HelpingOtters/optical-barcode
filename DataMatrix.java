@@ -324,7 +324,7 @@ public class DataMatrix implements BarcodeIO
    }
 
    /**
-    * Shift the array to the left most column
+    * Shifts the array values the bottom most row.
     * @param offset
     */
    private void shiftImageDown(final int offset)
@@ -345,7 +345,7 @@ public class DataMatrix implements BarcodeIO
       }
    }
    /**
-    * Shifts the Array the bottom most row.
+    * Shifts array values to the left most column.
     * @param offset
     */
    private void shiftImageLeft(int offset)
