@@ -1,4 +1,14 @@
 // package src;
+/************************************************************
+ * Module 4 Assignment 
+ * 
+ * @author Lindsey Reynolds
+ * @author Max Halbert
+ * @author Dan Sedano 
+ * @author Ricardo Barbosa 
+ * 
+ * @version November 19, 2019
+ **********************************************************/
 public class Assig4 
 {
 
