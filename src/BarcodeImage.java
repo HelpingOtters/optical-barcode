@@ -1,5 +1,4 @@
 package src;
-
 /**
  * It stores a barcode image as boolean type 2D array and allows retrieve and
  * change of data in the array. It implements Clonable interface because it
