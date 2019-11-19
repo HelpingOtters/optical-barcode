@@ -1,4 +1,4 @@
-package src;
+// package src;
 
 public class DataMatrix implements BarcodeIO
 {
@@ -97,148 +97,116 @@ public class DataMatrix implements BarcodeIO
    /**************************************** END OF PERSON 1 ************************************/
 
    /******************************************PERSON******2**************************************/
+
+   /**
+    * creates a barcode image from a String value 
+    * @return boolean
+    */
    public boolean generateImageFromText() 
    {
-      /**
-       * use readCharFromCol(int col) and WriteCharToCol(int col, int code)
-       * Not technically an I/O operation, this method looks at the internal text stored in the 
-       * implementing class and produces a companion BarcodeImage, internally 
-       * (or an image in whatever format the implementing class uses).  After this is called, 
-       * we expect the implementing object to contain a fully-defined image and text that are in 
-       * agreement with each other.
-       */ 
-      this.image = new BarcodeImage();
-
-      final int textLength = this.text.length();
-
-      //adds 2 to the width for border 
-      this.actualWidth = textLength + 2;
-
-      //8 rows in the image plus the border width
-      this.actualHeight = 10;
-
-      //intial image creation 
-      for (int i = 1; i < textLength; i++)
+      //checks for validity
+      if(text == null || text.equals("") || 
+            text.length() > BarcodeImage.MAX_WIDTH)
+         return false;
+         
+      //loops the writeCharToCol() method to write characters  
+      int value;   
+      for(int i = 0; i < text.length(); i++)
       {
-         final int charWrite = (int) this.text.charAt(i);
-         this.writeCharToCol(i, charWrite);
+         value = (int)text.charAt(i);
+         writeCharToCol(i + 1, value);
       }
 
-      //image adjustment to lower left corner 
-      final int leftCorner = this.image.MAX_HEIGHT - this.actualHeight;
-
-      //adjusting the horizontal borders
-      for (int x = 1; x < this.actualWidth - 1; x++)
-      {
-         this.image.setPixel(x, this.image.MAX_HEIGHT - 1, true);
-         if(x % 2 == 0)
-         {
-            this.image.setPixel(x, leftCorner, true);
-         }
-      }
-
-      //adjusting the vertical borders 
-      for (int y = this.image.MAX_HEIGHT - 1; y >= leftCorner; --y)
-      {
-         image.setPixel(0, y, true);
-      }
+      //realigns
+      cleanImage();
 
       return true;
 
    }
-
-   public boolean translateImageToText() 
+   
+   /**
+    * reads barcode image and and translates to String value
+    * @return boolean
+    */
+   public boolean translateImageToText() 	
    {
-      /**
-       * use readCharFromCol(int col) and WriteCharToCol(int col, int code)
-       * Not technically an I/O operation, this method looks at the internal text stored in the 
-       * implementing class and produces a companion BarcodeImage, internally 
-       * (or an image in whatever format the implementing class uses).  After this is called, 
-       * we expect the implementing object to contain a fully-defined image and text that are in 
-       * agreement with each other.
-       */ 
-      this.text = "";
-      for (int x = 1; x < this.actualWidth - 1; x++)
+	   //loops readCharFromCol() method to read characters	
+      text = "";
+      for(int i = 1 ; i < actualWidth - 1; i++) 
       {
-         this.text += readCharFromCol(x);
+         text += (readCharFromCol(i));
       }
-      return true;
-
+      
+      return false;
    }
-
-   // Use for generateImageFromText() and translateImageToText()
-   private char readCharFromCol(final int col) 
+   
+   /**
+    * helper method for generateImageFromText()
+    * @return binary value 
+    */ 
+   private char readCharFromCol(int col) 
    {
-      //adjusts value for new barcode lower left location
-      final int leftCorner = this.image.MAX_HEIGHT - this.actualHeight;
-
-      int total = 0;
-      for (int y = this.image.MAX_HEIGHT - 1; y > leftCorner; --y)
-      {
-         if(this.image.getPixel(col, y))
-         {
-            total += Math.pow(2, this.image.MAX_HEIGHT - (y + 2));
+      String binary = "";
+      for(int i = BarcodeImage.MAX_HEIGHT - actualHeight + 1; i < BarcodeImage.MAX_HEIGHT - 1; i++) {
+         if(image.getPixel(i, col)) {
+            binary += "1";
+         }
+         else {
+        	 binary += "0";
          }
       }
-      return (char) total;
-
+      return ((char)Integer.parseInt(binary, 2));
    }
 
-   // Use for generateImageFromText() and translateImageToText()
-   private boolean writeCharToCol(final int col, int code)
+   /**
+    * helper method for generateImageFromText()
+    * @param col
+    * @param code
+    * @return boolean
+    */
+   private boolean writeCharToCol(int col, int code) 
    {
-      //break apart the message into binary using repeated subtraction
-      int row;
-      int binaryDecomp = 128;
-      while (code > 0)
-      {
-         if(code - binaryDecomp >= 0)
-         {
-            //use log on msg to calculate the row number
-            row = (this.image.MAX_HEIGHT - 2) - (int)(Math.log(code) / Math.log(2));
-            this.image.setPixel(col, row, true);
-            code -= binaryDecomp;
+      String binary = Integer.toBinaryString(code);
+      image.setPixel(image.MAX_HEIGHT, col, true);
 
+      if(col % 2 == 0) {
+         image.setPixel(image.MAX_HEIGHT-(binary.length() + 1), col, true);
+      }
+      for(int i = 0; i < binary.length(); i++) {
+         if(binary.charAt(i) == '1') {
+            image.setPixel((image.MAX_HEIGHT - 1) - (i + 1), col, true);
+         } else {
+            image.setPixel((image.MAX_HEIGHT - 1 ) - (i + 1), col, false);
          }
-         binaryDecomp /= 2;
       }
       return true;
    }
+
+   /**
+    * prints String text to the console
+    */
    public void displayTextToConsole() 
    {
-      // prints out the text string to the console.
       System.out.println(this.text);
    }
-
- 
-   public void displayImageToConsole() 
-   {
-      /**
-       * should display only the relevant portion of the image, 
-       * clipping the excess blank/white from the top and right.
-       * prints out the image to the console.  
-       * In our implementation, we will do this in the form of a dot-matrix 
-       * of blanks and asterisks
-       *
-       */
-
-      //displays data 
-      final int leftCorner = this.image.MAX_HEIGHT - this.actualHeight;
-      for (int y = leftCorner; y < this.image.MAX_HEIGHT; y++)
-      {
-         for (int x = 0; x < this.actualWidth; x++)
-         {
-            if (this.image.getPixel(y, x))
-            {
-               System.out.print(this.BLACK_CHAR);
-            }
-            else
-            {
-               System.out.print(this.WHITE_CHAR);
+   
+   /**
+    * prints image to the console
+    */
+   public void displayImageToConsole() {
+      int row, col;
+      System.out.println();
+      for(row = image.MAX_HEIGHT - actualHeight; row < image.MAX_HEIGHT; row++) {
+         for(col = 0; col < actualWidth; col++) {
+            if(image.getPixel(row, col) == true) {
+               System.out.print("*");
+            } else {
+               System.out.print(" ");
             }
          }
          System.out.println();
       }
+      System.out.println();
    }
 
 
