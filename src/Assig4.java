@@ -50,7 +50,7 @@ public class Assig4
       bc.displayToConsole();
       
       
-        DataMatrix dm = new DataMatrix(bc);
+      DataMatrix dm = new DataMatrix(bc);
      
       // First secret message
       dm.translateImageToText();
