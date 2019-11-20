@@ -10,7 +10,7 @@ public class DataMatrix implements BarcodeIO
    private int actualWidth; // dependent on the data in the image. Can change as image changes
    private int actualHeight; // and can be computed from the "spine" of the image.
 
-   /****************************************** PERSON 1 ****************************************/
+   
    /**
     *  Default constructor that takes no arguments and creates an blank image and empty text
     */ 
@@ -94,9 +94,6 @@ public class DataMatrix implements BarcodeIO
    {
       return actualHeight;
    }
-   /**************************************** END OF PERSON 1 ************************************/
-
-   /******************************************PERSON******2**************************************/
 
    /**
     * creates a barcode image from a String value 
@@ -104,24 +101,58 @@ public class DataMatrix implements BarcodeIO
     */
    public boolean generateImageFromText() 
    {
-      //checks for validity
-      if(text == null || text.equals("") || 
-            text.length() > BarcodeImage.MAX_WIDTH)
-         return false;
-         
-      //loops the writeCharToCol() method to write characters  
-      int value;   
-      for(int i = 0; i < text.length(); i++)
-      {
-         value = (int)text.charAt(i);
-         writeCharToCol(i + 1, value);
-      }
+      image = new BarcodeImage();
 
-      //realigns
-      cleanImage();
+      int textLength = text.length();
+
+      //adds 2 to the width for border 
+      actualWidth = textLength + 2;
+
+      //8 rows in the image plus the border width
+      actualHeight = 10;
+
+      //intial image creation 
+      //for (int i = 1; i < textLength; i++)
+      for (int i = 0; i < textLength; i++) //MAXHALBERT
+      {
+         int charWrite = (int) text.charAt(i);
+         writeCharToCol(i, charWrite);
+      }
+      //adjusts image: vertical and hortizontal 
+      adjustImage();
 
       return true;
 
+   }
+
+   /**
+    * helper method to generateImageFromText()
+    * adjusts image vertically and horizontally
+    * @return boolean
+    */
+   private boolean adjustImage()
+   {
+      //image adjustment to lower left corner 
+      int leftCorner = image.MAX_HEIGHT - actualHeight;
+
+      //adjusting the horizontal borders
+      for (int x = 1; x < actualWidth - 1; x++)
+      {
+         //this.image.setPixel(x, this.image.MAX_HEIGHT - 1, true);
+         image.setPixel( image.MAX_HEIGHT - 1, x, true); //MAXHALBERT
+         if(x % 2 == 0)
+         {
+            //this.image.setPixel(x, leftCorner, true);
+            image.setPixel(leftCorner, x, true); //MAXHALBERT
+         }
+      }
+      //adjusting the vertical borders 
+      for (int y = BarcodeImage.MAX_HEIGHT - 1; y >= leftCorner; --y)
+      {
+         //image.setPixel(0, y, true);
+         image.setPixel(y, 0, true); //MAXHALBERT
+      }
+      return true;
    }
    
    /**
@@ -144,19 +175,23 @@ public class DataMatrix implements BarcodeIO
     * helper method for generateImageFromText()
     * @return binary value 
     */ 
-   private char readCharFromCol(int col) 
-   {
-      String binary = "";
-      for(int i = BarcodeImage.MAX_HEIGHT - actualHeight + 1; i < BarcodeImage.MAX_HEIGHT - 1; i++) {
-         if(image.getPixel(i, col)) {
-            binary += "1";
-         }
-         else {
-        	 binary += "0";
-         }
-      }
-      return ((char)Integer.parseInt(binary, 2));
-   }
+    private char readCharFromCol(int col) 
+    {
+       //adjusts value for new barcode lower left location
+       int leftCorner = BarcodeImage.MAX_HEIGHT - actualHeight;
+ 
+       int total = 0;
+       for (int y = BarcodeImage.MAX_HEIGHT - 1; y > leftCorner; y--)
+       {
+          //if(this.image.getPixel(y, col))
+          if(image.getPixel(y, col))     // MAXHALBERT CHANGE TO THIS
+          {
+             total += Math.pow(2, BarcodeImage.MAX_HEIGHT - (y + 2));
+          }
+         
+       }
+       return (char) total;
+    }
 
    /**
     * helper method for generateImageFromText()
@@ -164,53 +199,55 @@ public class DataMatrix implements BarcodeIO
     * @param code
     * @return boolean
     */
-   private boolean writeCharToCol(int col, int code) 
+    private boolean writeCharToCol(int col, int code)
    {
-      String binary = Integer.toBinaryString(code);
-      image.setPixel(image.MAX_HEIGHT, col, true);
+      //break apart the message into binary using repeated subtraction
+      int row;
+      int binaryDecomp = 128;
+      while (code > 0)
+      {
+         if(code - binaryDecomp >= 0)
+         {
+            //use log on msg to calculate the row number
+            row = (BarcodeImage.MAX_HEIGHT - 2) - (int)(Math.log(code) / Math.log(2));
+            //this.image.setPixel(col, row, true);
+            image.setPixel(row, col + 1, true); //MAXHALBERT
+            code -= binaryDecomp;
 
-      if(col % 2 == 0) {
-         image.setPixel(image.MAX_HEIGHT-(binary.length() + 1), col, true);
-      }
-      for(int i = 0; i < binary.length(); i++) {
-         if(binary.charAt(i) == '1') {
-            image.setPixel((image.MAX_HEIGHT - 1) - (i + 1), col, true);
-         } else {
-            image.setPixel((image.MAX_HEIGHT - 1 ) - (i + 1), col, false);
          }
+         binaryDecomp /= 2;
       }
       return true;
    }
-
-   /**
-    * prints String text to the console
-    */
    public void displayTextToConsole() 
    {
+      // prints out the text string to the console.
       System.out.println(this.text);
    }
    
    /**
     * prints image to the console
     */
-   public void displayImageToConsole() {
-      int row, col;
-      System.out.println();
-      for(row = image.MAX_HEIGHT - actualHeight; row < image.MAX_HEIGHT; row++) {
-         for(col = 0; col < actualWidth; col++) {
-            if(image.getPixel(row, col) == true) {
-               System.out.print("*");
-            } else {
-               System.out.print(" ");
+   public void displayImageToConsole() 
+   {
+      int leftCorner = BarcodeImage.MAX_HEIGHT - this.actualHeight;
+      for (int y = leftCorner; y < BarcodeImage.MAX_HEIGHT; y++)
+      {
+         for (int x = 0; x < this.actualWidth; x++)
+         {
+            //if (this.image.getPixel(x, y))
+            if (this.image.getPixel(y, x))     // MAXHALBERT CHANGE TO THIS
+            {
+               System.out.print(BLACK_CHAR);
+            }
+            else
+            {
+               System.out.print(WHITE_CHAR);
             }
          }
          System.out.println();
       }
-      System.out.println();
    }
-
-
-   /****************************************END*****OF*******PERSON2************************************/
 
    // PRIVATE METHODS
 
@@ -221,9 +258,6 @@ public class DataMatrix implements BarcodeIO
     */
    private int computeSignalWidth() 
    {
-      /* 
-       Assuming that the image is correctly situated in the lower-left corner of the larger boolean array, these methods use the "spine" of the array (left and bottom BLACK) to determine the actual size.
-       */
       int counter = 0;
       for(int col = 0; col < image.MAX_WIDTH; col++)
       {
@@ -239,9 +273,6 @@ public class DataMatrix implements BarcodeIO
     */
    private int computeSignalHeight() 
    {
-      /* 
-       Assuming that the image is correctly situated in the lower-left corner of the larger boolean array, these methods use the "spine" of the array (left and bottom BLACK) to determine the actual size.
-       */
       int counter = 0;
       final int firstCol = 0;
       for(int row = 0; row < image.MAX_HEIGHT; row++)
@@ -249,14 +280,9 @@ public class DataMatrix implements BarcodeIO
             counter++;
       return counter;  
    }
-
+   // resets to the left 
    private void cleanImage() 
    {
-      /*
-       This private method will make no assumption about the placement of the "signal" within a passed-in BarcodeImage.  In other words, the in-coming BarcodeImage may not be lower-left justified. 
-
-       The cleanImage() method would be called from within scan() and would move the signal to the lower-left of the larger 2D array.  And, since scan() is called by the constructor, that implies that the image gets adjusted upon construction.  This kind of standardization represents the many other image processing tasks that would be implemented in the scan() method.  Error correction would be done at this point in a real class design. 
-       */
       moveImageToLowerLeft();
    }
 
@@ -361,39 +387,7 @@ public class DataMatrix implements BarcodeIO
    }
 
 
-   // Optional 
-   public void displayRawImage() 
-   {
-      /*
-       Can be implemented to show the full image data including the blank top and right.  It is a useful debugging tool.
-       */
-      for(int row = 0; row < this.image.MAX_HEIGHT; row++)
-      {
-         System.out.print("|");
-         for(int col = 0; col < this.image.MAX_WIDTH; col++)
-         {
-            if(this.image.getPixel(row, col))
-            {
-               System.out.print(this.BLACK_CHAR);
-            }
-            else
-            {
-               System.out.print(this.WHITE_CHAR);
-            }
-         }
-         System.out.print("|");
-         System.out.println();
-          
-      }
-
-   }
-
-
-   // Optional 
-   private void clearImage() 
-   {
-      // a nice utility that sets the image to white =  false.
-   }
+  
 
 }
 
