@@ -310,6 +310,8 @@ class BarcodeImage implements Cloneable
 /*********************************************************
  * Phase 3
  * DataMatrix.java
+ * Description: Class to hold both a barcode image and the text
+ * that corresponds to it
  *********************************************************/
 class DataMatrix implements BarcodeIO
 {
@@ -430,7 +432,7 @@ class DataMatrix implements BarcodeIO
          writeCharToCol(i, charWrite);
       }
       //adjusts image: vertical and horizontal 
-      adjustImage();
+      addImageBorder();
 
       return true;
 
@@ -441,7 +443,7 @@ class DataMatrix implements BarcodeIO
     * adjusts image vertically and horizontally
     * @return boolean
     */
-   private boolean adjustImage()
+   private boolean addImageBorder()
    {
       //image adjustment to lower left corner 
       int leftCorner = BarcodeImage.MAX_HEIGHT - actualHeight;
@@ -480,7 +482,7 @@ class DataMatrix implements BarcodeIO
    }
 
    /**
-    * helper method for generateImageFromText()
+    * helper method for translateImageToText()
     * @return binary value 
     */ 
    private char readCharFromCol(int col) 
@@ -526,6 +528,9 @@ class DataMatrix implements BarcodeIO
       return true;
    }
    
+   /**
+    * Method to display the text field
+    */
    public void displayTextToConsole() 
    {
       // prints out the text string to the console.
@@ -533,7 +538,7 @@ class DataMatrix implements BarcodeIO
    }
 
    /**
-    * prints image to the console
+    * Prints image to the console
     */
    public void displayImageToConsole() 
    {
@@ -588,14 +593,16 @@ class DataMatrix implements BarcodeIO
    }
 
    /**
-    * lower justifies
+    * Method to move image into the bottom left corner
     */
    private void cleanImage() 
    {
       moveImageToLowerLeft();
    }
 
-   // Method to help with manipulation in cleanImage()
+   /**
+    *  Method to help with manipulation in cleanImage()
+    */
    private void moveImageToLowerLeft()
    {
       int downOffset = countBlankRows();
@@ -634,7 +641,7 @@ class DataMatrix implements BarcodeIO
 
    /**
     * Counts the number of blank columns from the left.
-    * @return Int count of blank columns from the left.
+    * @return int count of blank columns from the left.
     */
    private int countBlankColumns()
    {
@@ -768,4 +775,4 @@ Helping Otters 2019
 * *  * * *  * *   ** 
 ******************** 
 
- ******************************************************************************/
+******************************************************************************/
