@@ -258,9 +258,6 @@ public class DataMatrix implements BarcodeIO
     */
    private int computeSignalWidth() 
    {
-      /* 
-       Assuming that the image is correctly situated in the lower-left corner of the larger boolean array, these methods use the "spine" of the array (left and bottom BLACK) to determine the actual size.
-       */
       int counter = 0;
       for(int col = 0; col < image.MAX_WIDTH; col++)
       {
@@ -276,9 +273,6 @@ public class DataMatrix implements BarcodeIO
     */
    private int computeSignalHeight() 
    {
-      /* 
-       Assuming that the image is correctly situated in the lower-left corner of the larger boolean array, these methods use the "spine" of the array (left and bottom BLACK) to determine the actual size.
-       */
       int counter = 0;
       final int firstCol = 0;
       for(int row = 0; row < image.MAX_HEIGHT; row++)
@@ -286,14 +280,9 @@ public class DataMatrix implements BarcodeIO
             counter++;
       return counter;  
    }
-
+   // resets to the left 
    private void cleanImage() 
    {
-      /*
-       This private method will make no assumption about the placement of the "signal" within a passed-in BarcodeImage.  In other words, the in-coming BarcodeImage may not be lower-left justified. 
-
-       The cleanImage() method would be called from within scan() and would move the signal to the lower-left of the larger 2D array.  And, since scan() is called by the constructor, that implies that the image gets adjusted upon construction.  This kind of standardization represents the many other image processing tasks that would be implemented in the scan() method.  Error correction would be done at this point in a real class design. 
-       */
       moveImageToLowerLeft();
    }
 
