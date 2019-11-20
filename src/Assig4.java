@@ -1,4 +1,14 @@
-package src;
+// package src;
+/************************************************************
+ * Module 4 Assignment 
+ * 
+ * @author Lindsey Reynolds
+ * @author Max Halbert
+ * @author Dan Sedano 
+ * @author Ricardo Barbosa 
+ * 
+ * @version November 19, 2019
+ **********************************************************/
 public class Assig4 
 {
 
@@ -50,7 +60,7 @@ public class Assig4
       bc.displayToConsole();
       
       
-      DataMatrix dm = new DataMatrix(bc);
+        DataMatrix dm = new DataMatrix(bc);
      
       // First secret message
       dm.translateImageToText();
@@ -68,13 +78,14 @@ public class Assig4
       dm.readText("What a great resume builder this is!");
       dm.generateImageFromText();
       dm.displayTextToConsole();
-      dm.displayImageToConsole();  
-      
+      dm.displayImageToConsole();
+
       // create your own message
-      dm.readText("This is a good SAMPLE to look at.");
+      dm.readText("Helping Otters 2019");
       dm.generateImageFromText();
       dm.displayTextToConsole();
-      dm.displayImageToConsole();  
+      dm.displayImageToConsole();
+       
    }
 
 
