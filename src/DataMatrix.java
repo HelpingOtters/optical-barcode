@@ -10,7 +10,7 @@ public class DataMatrix implements BarcodeIO
    private int actualWidth; // dependent on the data in the image. Can change as image changes
    private int actualHeight; // and can be computed from the "spine" of the image.
 
-   /****************************************** PERSON 1 ****************************************/
+   
    /**
     *  Default constructor that takes no arguments and creates an blank image and empty text
     */ 
@@ -94,9 +94,6 @@ public class DataMatrix implements BarcodeIO
    {
       return actualHeight;
    }
-   /**************************************** END OF PERSON 1 ************************************/
-
-   /******************************************PERSON******2**************************************/
 
    /**
     * creates a barcode image from a String value 
@@ -133,7 +130,7 @@ public class DataMatrix implements BarcodeIO
     * adjusts image vertically and horizontally
     * @return boolean
     */
-   public boolean adjustImage()
+   private boolean adjustImage()
    {
       //image adjustment to lower left corner 
       int leftCorner = image.MAX_HEIGHT - actualHeight;
@@ -157,8 +154,6 @@ public class DataMatrix implements BarcodeIO
       }
       return true;
    }
-
-   
    
    /**
     * reads barcode image and and translates to String value
@@ -196,7 +191,6 @@ public class DataMatrix implements BarcodeIO
          
        }
        return (char) total;
- 
     }
 
    /**
@@ -254,9 +248,6 @@ public class DataMatrix implements BarcodeIO
          System.out.println();
       }
    }
-
-
-   /****************************************END*****OF*******PERSON2************************************/
 
    // PRIVATE METHODS
 
