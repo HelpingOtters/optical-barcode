@@ -1,4 +1,14 @@
-package src;
+// package src;
+/************************************************************
+ * Module 4 Assignment 
+ * 
+ * @author Lindsey Reynolds
+ * @author Max Halbert
+ * @author Dan Sedano 
+ * @author Ricardo Barbosa 
+ * 
+ * @version November 19, 2019
+ **********************************************************/
 public class Assig4 
 {
 
@@ -67,6 +77,12 @@ public class Assig4
       // create your own message
       //dm.readText("What a great resume builder this is!");
       dm.readText("What a great resume builder this is!");
+      dm.generateImageFromText();
+      dm.displayTextToConsole();
+      dm.displayImageToConsole();
+
+      // create your own message
+      dm.readText("Helping Otters 2019");
       dm.generateImageFromText();
       dm.displayTextToConsole();
       dm.displayImageToConsole();
