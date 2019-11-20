@@ -398,39 +398,7 @@ public class DataMatrix implements BarcodeIO
    }
 
 
-   // Optional 
-   public void displayRawImage() 
-   {
-      /*
-       Can be implemented to show the full image data including the blank top and right.  It is a useful debugging tool.
-       */
-      for(int row = 0; row < this.image.MAX_HEIGHT; row++)
-      {
-         System.out.print("|");
-         for(int col = 0; col < this.image.MAX_WIDTH; col++)
-         {
-            if(this.image.getPixel(row, col))
-            {
-               System.out.print(this.BLACK_CHAR);
-            }
-            else
-            {
-               System.out.print(this.WHITE_CHAR);
-            }
-         }
-         System.out.print("|");
-         System.out.println();
-          
-      }
-
-   }
-
-
-   // Optional 
-   private void clearImage() 
-   {
-      // a nice utility that sets the image to white =  false.
-   }
+  
 
 }
 
