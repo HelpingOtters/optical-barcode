@@ -68,8 +68,13 @@ public class Assig4
       dm.readText("What a great resume builder this is!");
       dm.generateImageFromText();
       dm.displayTextToConsole();
-      dm.displayImageToConsole();
-       
+      dm.displayImageToConsole();  
+      
+      // create your own message
+      dm.readText("This is a good SAMPLE to look at.");
+      dm.generateImageFromText();
+      dm.displayTextToConsole();
+      dm.displayImageToConsole();  
    }
 
 
